@@ -1,9 +1,12 @@
 {
   "name": "@nest-me-up/common",
   "version": "0.0.1",
-  "description": "Library for common NestJs components for Web or Micro Services",
+  "description": "Library for NestJS Redis based modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "keywords": [],
+  "author": "ItaiH",
+  "license": "MIT",
   "repository": {
     "name": "common",
     "type": "git",
@@ -21,21 +24,26 @@
     "test:component": "service_config='src/utils/config/test.yml' jest --config test/component/config/jest-component-test.json --runInBand --forceExit --detectOpenHandles",
     "test:component-ci": "service_config='src/utils/config/ci.yml' jest --config test/component/config/jest-component-test.json --runInBand --forceExit"
   },
-  "keywords": [],
-  "author": "ItaiH",
-  "license": "MIT",
+  "peerDependencies": {
+    "@nest-me-up/common": ">=1.0.0",
+    "ioredis": ">=5.0.0",
+    "uuid": ">=9.0.0"
+  },
   "devDependencies": {
+    "@nest-me-up/common": "1.0.13-itai1",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "ioredis": "^5.8.2",
     "jest": "^30.2.0",
     "prettier": "^3.7.4",
     "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.50.1"
+    "typescript-eslint": "^8.50.1",
+    "uuid": "^13.0.0"
   },
   "files": [
     "dist",
