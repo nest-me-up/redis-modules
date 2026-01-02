@@ -1,0 +1,9 @@
+{
+  "name": "test-package",
+  "version": "1.0.0",
+  "scripts": {
+    "prePublishOnly": "echo 'Running prePublishOnly (camelCase)' > test-output.txt",
+    "prepublishOnly": "echo 'Running prepublishOnly (lowercase)' > test-output-lower.txt"
+  }
+}
+
