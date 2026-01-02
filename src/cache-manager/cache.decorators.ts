@@ -9,7 +9,7 @@ export interface CacheConfig {
 }
 
 export interface ClearCacheConfig {
-  key: string
+  keys: string[]
   paramNames?: string[]
   context?: CacheContextOptions
   dataVersion?: string

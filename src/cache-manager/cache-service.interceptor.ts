@@ -7,11 +7,8 @@ export function ServiceCache(config: CacheConfig) {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: unknown[]) {
-      const cacheManager: CacheManagerService = this.cacheManager // Service needs to have CacheManagerService injected
-
-      if (!cacheManager) {
-        throw new Error('CacheManagerService must be injected as "cacheManager" to use @CacheService decorator')
-      }
+      const cacheManager: CacheManagerService =
+        (this as { cacheManager?: CacheManagerService }).cacheManager || CacheManagerService.getInstance()
 
       const params = getRelevantParams(args, config.paramNames)
 
@@ -34,11 +31,8 @@ export function ServiceClearCache(config: ClearCacheConfig) {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: unknown[]) {
-      const cacheManager: CacheManagerService = this.cacheManager // Service needs to have CacheManagerService injected
-
-      if (!cacheManager) {
-        throw new Error('CacheManagerService must be injected to use @ServiceClearCache decorator')
-      }
+      const cacheManager: CacheManagerService =
+        (this as { cacheManager?: CacheManagerService }).cacheManager || CacheManagerService.getInstance()
 
       const result = await originalMethod.apply(this, args)
 
@@ -55,11 +49,8 @@ export function RequestCache(config: CacheConfig) {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: unknown[]) {
-      const cacheManager: CacheManagerService = this.cacheManager // Service needs to have CacheManagerService injected
-
-      if (!cacheManager) {
-        throw new Error('CacheManagerService must be injected as "cacheManager" to use @CacheService decorator')
-      }
+      const cacheManager: CacheManagerService =
+        (this as { cacheManager?: CacheManagerService }).cacheManager || CacheManagerService.getInstance()
 
       const params = getRelevantParams(args, config.paramNames)
 
@@ -82,11 +73,8 @@ export function RequestClearCache(config: ClearCacheConfig) {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: unknown[]) {
-      const cacheManager: CacheManagerService = this.cacheManager // Service needs to have CacheManagerService injected
-
-      if (!cacheManager) {
-        throw new Error('CacheManagerService must be injected to use @ServiceClearCache decorator')
-      }
+      const cacheManager: CacheManagerService =
+        (this as { cacheManager?: CacheManagerService }).cacheManager || CacheManagerService.getInstance()
 
       const result = await originalMethod.apply(this, args)
 

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ContextService, getLoggerMock, LoggerModule } from '@nest-me-up/common'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import * as crypto from 'crypto'
 import request, { Test as SuperTest } from 'supertest'
-import { ContextService } from '../context'
 import { RedisService } from '../redis'
 import { CacheManagerModule } from './cache-manager.module'
 import { CacheManagerService } from './cache-manager.service'
@@ -24,17 +25,28 @@ describe('CacheManagerService', () => {
 
   let cachedValue = {}
   const redisServiceMock = {
-    getKey: jest.fn().mockImplementation((key) => {
-      return Promise.resolve(cachedValue[key])
+    getKey: jest.fn().mockImplementation((key: { key: string }) => {
+      // Handle both object-style args and string-style args if the mock was called differently
+      const k = typeof key === 'object' && key !== null ? key.key : key
+      const val = (cachedValue as Record<string, unknown>)[k as string]
+      return Promise.resolve(val)
     }),
-    setKey: jest.fn().mockImplementation((key, value) => {
-      cachedValue[key] = value
+    setKey: jest.fn().mockImplementation((args: { key: string; value: any } | string, value?: any) => {
+      let k, v
+      if (typeof args === 'object' && args !== null) {
+        k = args.key
+        v = args.value
+      } else {
+        k = args
+        v = value
+      }
+      ;(cachedValue as Record<string, unknown>)[k as string] = v
       return Promise.resolve()
     }),
     deleteKeysStartingWith: jest.fn().mockImplementation((pattern) => {
       Object.keys(cachedValue).forEach((key) => {
         if (key.startsWith(pattern)) {
-          delete cachedValue[key]
+          delete (cachedValue as Record<string, any>)[key]
         }
       })
       return Promise.resolve()
@@ -43,12 +55,14 @@ describe('CacheManagerService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [CacheManagerModule, CacheTestModule],
+      imports: [CacheManagerModule, CacheTestModule, LoggerModule.forRoot()],
     })
       .overrideProvider(ContextService)
       .useValue(contextServiceMock)
       .overrideProvider(RedisService)
       .useValue(redisServiceMock)
+      .overrideProvider('PinoLogger:CacheInterceptor')
+      .useValue(getLoggerMock())
       .compile()
 
     app = module.createNestApplication()

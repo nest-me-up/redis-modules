@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common'
-import { CacheManagerService } from '../cache-manager.service'
 import { ServiceCache, ServiceClearCache } from '../cache-service.interceptor'
 
 @Injectable()
@@ -10,7 +9,7 @@ export class CacheTestService {
   private paramNamesCounter = 0
   private paramNamesObjectCounter = 0
   private callCount = 0
-  constructor(private readonly cacheManager: CacheManagerService) {}
+  constructor() {}
 
   reset() {
     this.noParamsCounter = 0
@@ -30,7 +29,7 @@ export class CacheTestService {
   }
 
   @ServiceClearCache({
-    key: 'test',
+    keys: ['test'],
     dataVersion: 'v1',
   })
   async clearCacheNoParams() {
@@ -46,7 +45,7 @@ export class CacheTestService {
   }
 
   @ServiceClearCache({
-    key: 'testWithParams',
+    keys: ['testWithParams'],
   })
   async clearCacheWithParams(param: { id: string; name: string }, param2: number) {
     return param
@@ -80,7 +79,10 @@ export class CacheTestService {
   }
 
   @ServiceCache({ key: 'object-with-map' })
-  async testCacheObjectWithMap(param: any): Promise<any> {
+  async testCacheObjectWithMap(param: {
+    id: string
+    data: Map<string, unknown>
+  }): Promise<{ id: string; data: Map<string, unknown> }> {
     this.callCount++
     return {
       id: param.id,
@@ -89,6 +91,7 @@ export class CacheTestService {
   }
 
   @ServiceCache({ key: 'nested-object-with-maps' })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async testCacheNestedObjectWithMaps(param: any): Promise<any> {
     this.callCount++
     return param

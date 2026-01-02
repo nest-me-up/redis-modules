@@ -29,7 +29,7 @@ export class CacheTestController {
 
   @Get('clear-no-params')
   @ControllerClearCache({
-    key: 'testNoParams',
+    keys: ['testNoParams'],
   })
   async clearCacheNoParams() {
     return 'clear'
@@ -47,7 +47,7 @@ export class CacheTestController {
 
   @Get('clear-with-query-params')
   @ControllerClearCache({
-    key: 'testWithQueryParams',
+    keys: ['testWithQueryParams'],
     paramNames: ['name'],
   })
   async clearCacheWithQueryParams(@Query('id') id: string, @Query('name') name: string) {
@@ -66,7 +66,7 @@ export class CacheTestController {
 
   @Get('clear-with-query-param-dto')
   @ControllerClearCache({
-    key: 'testWithQueryParamDto',
+    keys: ['testWithQueryParamDto'],
     paramNames: ['name'],
   })
   @Get('clear-with-query-param-dto')
@@ -86,7 +86,7 @@ export class CacheTestController {
 
   @Post('clear-with-body-params')
   @ControllerClearCache({
-    key: 'testWithBodyParams',
+    keys: ['testWithBodyParams'],
     paramNames: ['name'],
   })
   async clearCacheWithBodyParams(@Body() dto: { id: string; name: string }) {
