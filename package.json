@@ -1,6 +1,6 @@
 {
   "name": "@nest-me-up/redis-modules",
-  "version": "0.0.1-itai5",
+  "version": "0.0.1",
   "description": "Library for NestJS Redis based modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -47,7 +47,7 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.1",
-    "uuid": "^13.0.0"
+    "uuid": "^11.1.0"
   },
   "files": [
     "dist",
