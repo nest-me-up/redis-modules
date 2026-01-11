@@ -8,9 +8,11 @@
   "author": "ItaiH",
   "license": "MIT",
   "repository": {
-    "name": "redis-modules",
     "type": "git",
-    "url": "https://github.com/nest-me-up/redis-modules.git"
+    "url": "git+https://github.com/nest-me-up/redis-modules.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
