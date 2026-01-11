@@ -30,7 +30,7 @@
     "uuid": ">=9.0.0"
   },
   "devDependencies": {
-    "@nest-me-up/common": "1.0.13-itai1",
+    "@nest-me-up/common": "1.0.14",
     "@nestjs/platform-express": "^11.1.11",
     "@nestjs/testing": "^11.1.11",
     "@types/jest": "^30.0.0",
